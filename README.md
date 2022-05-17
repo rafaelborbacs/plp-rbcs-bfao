@@ -4,10 +4,13 @@ Projeto PLP - Exceptions na Linguagem Imperativa 1
 
 
 \applet.jar -> O applet do professo pra testar as linguagens
+ 
 \javacc.jar -> A versão do javacc que tem na página da disciplina
+ 
 \workspace\ -> Projeto Java (usei Eclipse)
+ 
 \workspace\programa.txt -> Um programa escrito em Li1 para testar
-
+ 
 
 Para executar:
 
