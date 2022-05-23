@@ -1,5 +1,6 @@
 package li1.plp.imperative1;
 
+import li1.plp.expressions1.excecao.Li1Exception;
 import li1.plp.expressions2.memory.IdentificadorJaDeclaradoException;
 import li1.plp.expressions2.memory.IdentificadorNaoDeclaradoException;
 import li1.plp.imperative1.command.Comando;
@@ -31,7 +32,9 @@ public class Programa {
      *
      */ 
     public ListaValor executar(AmbienteExecucaoImperativa ambienteExecucao) 
-        throws IdentificadorJaDeclaradoException, IdentificadorNaoDeclaradoException, EntradaVaziaException, ErroTipoEntradaException {
+        throws IdentificadorJaDeclaradoException, IdentificadorNaoDeclaradoException, 
+        EntradaVaziaException, ErroTipoEntradaException, Li1Exception {
+    	
         ambienteExecucao = comando.executar(ambienteExecucao);
         return ambienteExecucao.getSaida();
     }

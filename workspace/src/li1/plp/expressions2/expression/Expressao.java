@@ -1,5 +1,6 @@
 package li1.plp.expressions2.expression;
 
+import li1.plp.expressions1.excecao.Li1Exception;
 import li1.plp.expressions1.util.Tipo;
 import li1.plp.expressions2.memory.AmbienteCompilacao;
 import li1.plp.expressions2.memory.AmbienteExecucao;
@@ -14,7 +15,7 @@ public interface Expressao {
 	/**
 	 * Avalia a expressao retornando seu Valor.
 	 */
-	Valor avaliar(AmbienteExecucao amb) throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException;
+	Valor avaliar(AmbienteExecucao amb) throws VariavelNaoDeclaradaException, VariavelJaDeclaradaException, Li1Exception;
 
 	/**
 	 * Realiza a verificacao de tipos desta expressao.

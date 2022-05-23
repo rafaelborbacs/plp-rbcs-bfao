@@ -1,5 +1,6 @@
 package li1.plp.imperative1.command;
 
+import li1.plp.expressions1.excecao.Li1Exception;
 import li1.plp.expressions2.expression.Expressao;
 import li1.plp.expressions2.expression.Id;
 import li1.plp.expressions2.memory.VariavelJaDeclaradaException;
@@ -30,7 +31,7 @@ public class Atribuicao implements Comando {
 	 */
 	public AmbienteExecucaoImperativa executar(
 			AmbienteExecucaoImperativa ambiente)
-			throws VariavelJaDeclaradaException, VariavelNaoDeclaradaException {
+			throws VariavelJaDeclaradaException, VariavelNaoDeclaradaException, Li1Exception {
 		ambiente.changeValor(id, expressao.avaliar(ambiente));
 		return ambiente;
 	}

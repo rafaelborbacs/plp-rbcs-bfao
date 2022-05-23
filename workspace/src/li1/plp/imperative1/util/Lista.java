@@ -44,7 +44,7 @@ public class Lista<T> {
 		if (head != null) {
 			resposta.append(head.toString());
 			if (tail != null) {
-				resposta.append(" ");
+				resposta.append("\r\n");
 				tail.formatar(resposta);
 			}
 		}

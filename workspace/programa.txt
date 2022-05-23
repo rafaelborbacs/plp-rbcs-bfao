@@ -1,6 +1,48 @@
 {
 	var a = 1;
-	a := a+1;
-	if a==1 then write("1") else write("nao1");
-	write(a+1)
+	a := 1 / a;
+	
+	write("-> trycatch");
+	
+	(try
+		a := 0;
+		write(a);
+		a := 2 / a
+	catch(msgErro)
+		if msgErro=="divisaoPorZero" 
+		then write("denominador nao poder ser zero")
+		else write("erro desconhecido"));
+	
+	write("-> throw com string");
+	
+	(try
+		a := 5;
+		if a==5	then
+			throw("throw str")
+		else
+			write("sem erro")
+	catch(msgErro)
+		write("erro foi: "++msgErro));
+	
+	write("-> throw com inteiro");
+	
+	(try
+		throw(999)
+	catch(e)
+		if e==999 then
+			write("erro 999")
+		else
+			write("outro erro"));
+	
+	write("-> throw com boolean");
+	
+	(try
+		throw(a==1)
+	catch(e)
+		if e then
+			write("throw then")
+		else
+			write("throw false"));
+	
+	write("fim")
 }

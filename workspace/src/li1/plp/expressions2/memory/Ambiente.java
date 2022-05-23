@@ -10,6 +10,8 @@ public interface Ambiente<T> {
 	public void restaura();
 
 	public void map(Id idArg, T tipoId) throws VariavelJaDeclaradaException;
+	
+	public void unmap(Id idArg);
 
 	public T get(Id idArg) throws VariavelNaoDeclaradaException;
 

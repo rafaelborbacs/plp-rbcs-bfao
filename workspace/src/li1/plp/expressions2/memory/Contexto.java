@@ -47,7 +47,15 @@ public class Contexto<T> {
 			throw new VariavelJaDeclaradaException(idArg);
 		}
 	}
-
+	
+	/**
+	 * Desmapeia o id dado.
+	 */
+	public void unmap(Id idArg){
+		HashMap<Id, T> aux = pilha.peek();
+		aux.remove(idArg);
+	}
+	
 	/**
 	 * Retorna o valor mapeado ao id dado.
 	 * 

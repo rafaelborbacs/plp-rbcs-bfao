@@ -20,10 +20,10 @@ public class Imp1Parser {
         ListaValor entrada = new ListaValor();
 	    Imp1Parser parser;
 	    if (args.length == 0) {
-	    	System.out.println("Imperativa 1 PLP Parser Version 0.0.2:  Reading from standard input . . .");
+	    	System.out.println("Imperativa 1 PLP Parser EXCEPTIONS:  Reading from standard input . . .");
 	    	parser = new Imp1Parser(System.in);
 	    } else  {
-	    	System.out.println("Imperativa 1 PLP Parser Version 0.0.2:  Reading from file " + args[0] + " . . .");
+	    	System.out.println("Imperativa 1 PLP Parser EXCEPTIONS:  Reading from file " + args[0] + " . . .");
 	    	try {
 	    		parser = new Imp1Parser(new java.io.FileInputStream(args[0]));
 	    	} catch (java.io.FileNotFoundException e) {
@@ -54,11 +54,11 @@ public class Imp1Parser {
 	    	}
     	
 	    	  entrada = criaListaValor(valores);
-	    } 
-
+	    }
+		
 	    try {
             Programa programa = parser.Input();
-            System.out.println("Imperativa 1 PLP Parser Version 0.0.2:  Imperativa2 program parsed successfully.");
+            System.out.println("Imperativa 1 PLP Parser EXCEPTIONS:  program parsed successfully.");
             if(programa.checaTipo(new ContextoCompilacaoImperativa(entrada))) {
                 ListaValor saida = programa.executar(new ContextoExecucaoImperativa(entrada));
                 System.out.println(saida);
@@ -67,7 +67,7 @@ public class Imp1Parser {
                 System.out.println("Erro de tipo");
             }
         } catch (Exception e) {
-            System.out.println("Imperativa 1 PLP Parser Version 0.0.2:  Encountered errors during parse.");
+            System.out.println("Imperativa 1 PLP Parser EXCEPTIONS:  Encountered errors during parse.");
             e.printStackTrace();
         }
 	}
@@ -80,12 +80,10 @@ public class Imp1Parser {
 		Valor primeiro = (Valor) valores.get(0);
 		valores.remove(0);
 		return new ListaValor(primeiro, criaListaValor(valores));
-		
 	}
 }
 
 PARSER_END(Imp1Parser)
-
 
 SKIP : /* WHITE SPACE */
 {
@@ -124,6 +122,10 @@ TOKEN : /* TOKENS DE IMPERATIVA 1 */
 | < IF: "if" >
 | < THEN: "then" >
 | < ELSE: "else" >
+| < TRY: "try" >
+| < CATCH: "catch" >
+| < THROW: "throw" >
+
 }
 
 TOKEN : /* TOKENS DE IMPERATIVA 2 */
@@ -132,7 +134,7 @@ TOKEN : /* TOKENS DE IMPERATIVA 2 */
 | < CALL: "call" >
 }
 
-TOKEN : /* TOKENS DOS POSS�VEIS TIPOS */
+TOKEN : /* TOKENS DOS TIPOS */
 {
   < INT : "int" >
 | < BOOLEAN  : "boolean" >
@@ -251,9 +253,8 @@ TOKEN : /* OPERATORS */
 | < REM: "%" >
 }
 
-
 Programa Input() :
-{ 
+{
     Programa retorno;
 }
 {
@@ -321,7 +322,7 @@ Read PRead() :
 	<READ> <LPAREN>
 		id = PId()
 		   <RPAREN>
-	{return new Read (id);}
+	{return new Read(id);}
 }
 
 Write PWrite() :
@@ -349,6 +350,34 @@ IfThenElse PIfThenElse() :
 	<ELSE>
 		comandoElse = PComando()
 	{return new IfThenElse (expressao, comandoThen, comandoElse);}
+}
+
+TryCatch PTryCatch() :
+{
+	Comando comandoTry;
+	Id id;
+	Comando comandoCatch;
+}
+{
+	<TRY>
+		comandoTry = PComando()
+	<CATCH>
+	<LPAREN>
+		id = PId()
+	<RPAREN>
+		comandoCatch = PComando()
+	{return new TryCatch (comandoTry, id, comandoCatch);}
+}
+
+Throw PThrow() :
+{
+	Expressao exp;;
+}
+{
+	<THROW> <LPAREN>
+		exp = PExpressao()
+		   <RPAREN>
+	{return new Throw(exp);}
 }
 
 While PWhile() :
@@ -394,7 +423,6 @@ Id PId() :
 		return new Id(token.toString());
 	}
 }
-
 
 Valor PValorInteiro() :
 {
@@ -492,7 +520,6 @@ Expressao PExpPrimaria() :
 	}
 }
 
-
 Expressao PExpUnaria() :
 {
 	Expressao retorno;
@@ -528,6 +555,8 @@ Expressao PExpBinaria() :
 			retorno = PExpEquals()
 		| LOOKAHEAD (PExpPrimaria() <PLUS>)
 			retorno = PExpSoma()
+		| LOOKAHEAD (PExpPrimaria() <SLASH>)
+			retorno = PExpDiv()
 	)
 	{
 		return retorno;
@@ -546,6 +575,18 @@ ExpSoma PExpSoma() :
 	{return new ExpSoma(esq, dir);}
 }
 
+ExpDiv PExpDiv() :
+{
+	Expressao esq;
+	Expressao dir;
+}
+{
+	esq = PExpPrimaria()
+	<SLASH>
+	dir = PExpressao()
+	{return new ExpDiv(esq, dir);}
+}
+
 ExpSub PExpSub() :
 {
 	Expressao esq;
@@ -558,7 +599,6 @@ ExpSub PExpSub() :
 	{return new ExpSub(esq, dir);}
 }
 
-
 ExpAnd PExpAnd() :
 {
 	Expressao esq;
@@ -570,7 +610,6 @@ ExpAnd PExpAnd() :
 	dir = PExpressao()
 	{return new ExpAnd(esq, dir);}
 }
-
 
 ExpOr PExpOr() :
 {
@@ -596,7 +635,6 @@ ExpEquals PExpEquals() :
 	{return new ExpEquals(esq, dir);}
 }
 
-
 ExpConcat PExpConcat() :
 {
 	Expressao esq;
@@ -617,7 +655,7 @@ Expressao PExpressao() :
 	(
 	    LOOKAHEAD (2) 
 	  		retorno = PExpUnaria()
-	  | LOOKAHEAD (PExpPrimaria() (<OR> | <AND> | <MINUS> | <PLUS> | <EQ>| <CONCAT>)) 
+	  | LOOKAHEAD (PExpPrimaria() (<OR> | <AND> | <MINUS> | <SLASH> | <PLUS> | <EQ>| <CONCAT>)) 
 	  		retorno = PExpBinaria()
 	  |
 	    retorno = PExpPrimaria()
@@ -640,6 +678,8 @@ Comando PComandoSimples() :
       | retorno = PComandoDeclaracao()
       | retorno = PWhile()
       | retorno = PIfThenElse()
+      | retorno = PTryCatch()
+      | retorno = PThrow()
       | retorno = PIO()
       | <LPAREN> retorno = PComando() <RPAREN>
    	)

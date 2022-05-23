@@ -41,9 +41,6 @@ public class Read implements IO {
 					" com tipo da vari�vel (" + id.getIdName() + ")");
 		}
 		
-		
-		
-		
 		return ambiente;
 	}
 

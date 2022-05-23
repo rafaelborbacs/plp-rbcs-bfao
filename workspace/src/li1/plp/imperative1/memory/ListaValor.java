@@ -44,5 +44,4 @@ public class ListaValor extends Lista<Valor>{
             ((ListaValor)getTail()).write(valor);
         }
     }
-	
 }

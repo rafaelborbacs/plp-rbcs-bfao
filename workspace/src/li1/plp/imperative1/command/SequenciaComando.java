@@ -1,5 +1,6 @@
 package li1.plp.imperative1.command;
 
+import li1.plp.expressions1.excecao.Li1Exception;
 import li1.plp.expressions2.memory.IdentificadorJaDeclaradoException;
 import li1.plp.expressions2.memory.IdentificadorNaoDeclaradoException;
 import li1.plp.imperative1.memory.AmbienteCompilacaoImperativa;
@@ -30,7 +31,7 @@ public class SequenciaComando implements Comando {
 	public AmbienteExecucaoImperativa executar(
 			AmbienteExecucaoImperativa ambiente)
 			throws IdentificadorJaDeclaradoException,
-			IdentificadorNaoDeclaradoException, EntradaVaziaException, ErroTipoEntradaException {
+			IdentificadorNaoDeclaradoException, EntradaVaziaException, ErroTipoEntradaException, Li1Exception {
 		return comando2.executar(comando1.executar(ambiente));
 	}
 
