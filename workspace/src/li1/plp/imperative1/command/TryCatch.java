@@ -1,10 +1,8 @@
 package li1.plp.imperative1.command;
 
 import li1.plp.expressions1.excecao.Li1Exception;
-import li1.plp.expressions2.expression.Expressao;
 import li1.plp.expressions2.expression.Id;
 import li1.plp.expressions2.expression.Valor;
-import li1.plp.expressions2.expression.ValorString;
 import li1.plp.expressions2.memory.IdentificadorJaDeclaradoException;
 import li1.plp.expressions2.memory.IdentificadorNaoDeclaradoException;
 import li1.plp.imperative1.memory.AmbienteCompilacaoImperativa;
@@ -46,14 +44,8 @@ public class TryCatch implements Comando {
 			ret = comandoTry.executar(ambiente);
 		}
 		catch(Li1Exception e){
-			Valor valor = new ValorString(e.getMessage());
+			Valor valor = e.getValor();
 			ambiente.map(id, valor);
-			ret = comandoCatch.executar(ambiente);
-			ambiente.unmap(id);
-		}
-		catch (Exception e){
-			Expressao expressao = new Id("ca08d1f245815e7c0c6d89f05575a51eedf31cd49797d7322715058d30d2046d");
-			ambiente.map(id, expressao.avaliar(ambiente));
 			ret = comandoCatch.executar(ambiente);
 			ambiente.unmap(id);
 		}
@@ -75,5 +67,4 @@ public class TryCatch implements Comando {
 			IdentificadorNaoDeclaradoException, EntradaVaziaException {
 		return comandoTry.checaTipo(ambiente);
 	}
-
 }

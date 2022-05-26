@@ -33,7 +33,7 @@ public class ExpDiv extends ExpBinaria {
 		int numerador = ((ValorInteiro) getEsq().avaliar(amb)).valor();
 		int denominador = ((ValorInteiro) getDir().avaliar(amb)).valor();
 		if(denominador==0){
-			throw new Li1Exception("divisaoPorZero");
+			throw new Li1Exception(new ValorString("divisaoPorZero"));
 		}
 		int quociente = Math.round(numerador / denominador);
 		return new ValorInteiro(quociente);

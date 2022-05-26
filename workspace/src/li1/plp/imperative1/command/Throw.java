@@ -2,7 +2,6 @@ package li1.plp.imperative1.command;
 
 import li1.plp.expressions1.excecao.Li1Exception;
 import li1.plp.expressions2.expression.Expressao;
-import li1.plp.expressions2.expression.Id;
 import li1.plp.expressions2.expression.Valor;
 import li1.plp.expressions2.memory.VariavelJaDeclaradaException;
 import li1.plp.expressions2.memory.VariavelNaoDeclaradaException;
@@ -30,10 +29,8 @@ public class Throw implements Comando {
 	public AmbienteExecucaoImperativa executar(AmbienteExecucaoImperativa ambiente)
 			throws VariavelJaDeclaradaException, VariavelNaoDeclaradaException, Li1Exception {
 		
-		Id id = new Id("ca08d1f245815e7c0c6d89f05575a51eedf31cd49797d7322715058d30d2046d");
 		Valor valor = expressao.avaliar(ambiente);
-		ambiente.map(id, valor);
-		throw new Li1Exception(valor.toString());
+		throw new Li1Exception(valor);
 	}
 
 	/**

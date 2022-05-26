@@ -7,7 +7,8 @@
 	(try
 		a := 0;
 		write(a);
-		a := 2 / a
+		a := 2 / a;
+		write("passou do erro")
 	catch(msgErro)
 		if msgErro=="divisaoPorZero" 
 		then write("denominador nao poder ser zero")
@@ -17,10 +18,11 @@
 	
 	(try
 		a := 5;
-		if a==5	then
+		(if a==5	then
 			throw("throw str")
 		else
-			write("sem erro")
+			write("sem erro"));
+		write("passou do erro")
 	catch(msgErro)
 		write("erro foi: "++msgErro));
 	
@@ -30,13 +32,15 @@
 		throw(999)
 	catch(e)
 		if e==999 then
-			write("erro 999")
+			e := e + 1;
+			write(e)
 		else
 			write("outro erro"));
 	
 	write("-> throw com boolean");
 	
 	(try
+		a := 0;
 		throw(a==1)
 	catch(e)
 		if e then
